@@ -1,0 +1,32 @@
+---
+- name: enable update module
+  command: drush en update -y chdir={{ item }}
+  with_items: check_sites
+  ignore_errors: yes
+  tags: update
+
+- name: check for updates
+  command: drush upc -n chdir={{ item }}
+  with_items: check_sites
+  tags: update
+
+- name: run cron to send emails
+  command: drush cron chdir={{ item }}
+  with_items: check_sites
+  tags: update
+
+- name: disable update module
+  command: drush dis update -y chdir={{ item }}
+  with_items: check_sites
+  ignore_errors: yes
+  tags: update
+
+- name: delete update last email notification variable
+  command: drush vdel update_last_email_notification -y chdir={{ item }}
+  with_items: check_sites
+  tags: update
+
+- name: delete update last check variable
+  command: drush vdel update_last_check -y chdir={{ item }}
+  with_items: check_sites
+  tags: update

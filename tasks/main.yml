@@ -1,0 +1,2 @@
+---
+- include: drupal_update_check.yml
